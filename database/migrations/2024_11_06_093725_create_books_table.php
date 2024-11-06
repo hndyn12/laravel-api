@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('post_id')->constrained()('post');
+            $table->string('title');
+            $table->unsignedBigInteger('author_id');
+            $table->foreignId('genre_id')->constrained('genres');
+            $table->integer('published_year');
             $table->timestamps();
+
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('books');
     }
 };
